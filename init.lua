@@ -225,6 +225,9 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- Keybinds for nvim-tree
+vim.keymap.set('n', '<C-j>', function() require('nvim-tree.api').tree.change_root_to_node() end)
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
