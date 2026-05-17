@@ -917,6 +917,8 @@ require('lazy').setup({
     },
   },
 
+  { 'Bekaboo/deadcolumn.nvim' },
+
   {
     'tarides/ocaml.nvim',
     config = function()
