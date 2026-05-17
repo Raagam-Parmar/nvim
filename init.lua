@@ -627,6 +627,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'lua-language-server', -- Lua Language server
         'stylua', -- Used to format Lua code
+        'ocaml-lsp', -- OCaml Language server
         -- You can add other tools here that you want Mason to install
       })
 
@@ -664,6 +665,17 @@ require('lazy').setup({
         },
       })
       vim.lsp.enable 'lua-language-server'
+
+      -- Config for OCaml Language server
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+      vim.lsp.config('ocamllsp', {
+        capabilities = capabilities,
+        cmd = { 'ocamllsp' },
+        filetypes = { 'ocaml', 'ocaml.interface', 'ocaml.menhir', 'ocaml.ocamllex', 'dune', 'reason' },
+      })
+
+      vim.lsp.enable 'ocamllsp'
     end,
   },
 
@@ -685,7 +697,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true } -- TODO Disable autoformatting for Menhir files
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
@@ -903,6 +915,32 @@ require('lazy').setup({
     opts = {
       input = { enabled = true },
     },
+  },
+
+  {
+    'tarides/ocaml.nvim',
+    config = function()
+      require('ocaml').setup {
+        params = {
+          client = 'ocamllsp',
+        },
+        keymaps = {
+          jump_next_hole = '<leader>n',
+          jump_prev_hole = '<leader>p',
+          construct = '<leader>c',
+          jump = '<leader>j',
+          phrase_prev = '<leader>pp',
+          phrase_next = '<leader>pn',
+          infer = '<leader>i',
+          switch_ml_mli = '<leader>s',
+          type_enclosing = '<leader>t',
+          type_enclosing_grow = '<Up>',
+          type_enclosing_shrink = '<Down>',
+          type_enclosing_increase = '<Right>',
+          type_enclosing_decrease = '<Left>',
+        },
+      }
+    end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
